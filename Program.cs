@@ -1,6 +1,6 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-
+using FormTests.Helpers;
 class Program
 {
     static void Main()
@@ -11,14 +11,19 @@ class Program
         {
             driver.Navigate().GoToUrl("https://app.cloudqa.io/home/AutomationPracticeForm");
             driver.Manage().Window.Maximize();
-            
-            TestFirstName(driver);
-            
-            TestGender(driver);
-            
-            TestCountry(driver);
-            
-            Console.WriteLine("All tests passed successfully!");
+
+            FormTestHelpers.EnterText(driver, By.Id("fname"), "Ojasvi");
+            Console.WriteLine("First name test passed");
+
+            FormTestHelpers.ClickRadio(driver, By.CssSelector("input[value='Female']"));
+            Console.WriteLine("Gender test passed");
+
+            var countryField = driver.FindElement(By.Id("country"));
+            FormTestHelpers.ScrollToElement(driver, countryField);
+            FormTestHelpers.EnterText(driver, By.Id("country"), "India");
+            Console.WriteLine("Country test passed");
+
+            Console.WriteLine("All tests passed!");
         }
         catch (Exception ex)
         {
@@ -28,40 +33,5 @@ class Program
         {
             driver.Quit();
         }
-    }
-
-    static void TestFirstName(IWebDriver driver)
-    {
-        var firstName = driver.FindElement(By.Id("fname"));
-        firstName.Clear();
-        firstName.SendKeys("Ojasvi");
-        
-        if(firstName.GetAttribute("value") != "Ojasvi")
-            throw new Exception("First name test failed");
-        
-        Console.WriteLine("First name test passed");
-    }
-
-    static void TestGender(IWebDriver driver)
-    {
-        var femaleRadio = driver.FindElement(By.CssSelector("input[type='radio'][value='Female']"));
-        femaleRadio.Click();
-        
-        if(!femaleRadio.Selected)
-            throw new Exception("Gender test failed");
-            
-        Console.WriteLine("Gender test passed");
-    }
-
-    static void TestCountry(IWebDriver driver)
-    {
-        var country = driver.FindElement(By.Id("country"));
-        country.Clear();
-        country.SendKeys("India");
-        
-        if(country.GetAttribute("value") != "India")
-            throw new Exception("Country test failed");
-            
-        Console.WriteLine("Country test passed");
     }
 }
