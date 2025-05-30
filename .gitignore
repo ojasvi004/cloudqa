@@ -455,3 +455,4 @@ $RECYCLE.BIN/
 bin/
 obj/
 *.user
+/test_log.txt
