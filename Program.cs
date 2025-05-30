@@ -1,11 +1,13 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using FormTests.Helpers;
+
 class Program
 {
-    static void Main()
+    static void Main(string[] args)
     {
-        IWebDriver driver = new ChromeDriver();
+        bool headless = args.Contains("--headless");
+        using IWebDriver driver = FormTestHelpers.CreateDriver(headless);
         
         try 
         {

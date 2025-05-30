@@ -1,4 +1,6 @@
 using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
+
 using System;
 
 namespace FormTests.Helpers
@@ -6,6 +8,16 @@ namespace FormTests.Helpers
 {
     public static class FormTestHelpers
     {
+        public static IWebDriver CreateDriver(bool headless = false)
+        {
+            var options = new ChromeOptions();
+            if (headless)
+            {
+                options.AddArgument("--headless");
+            }
+            return new ChromeDriver(options);
+        }
+
         public static void EnterText(IWebDriver driver, By locator, string text)
         {
             var element = driver.FindElement(locator);
